@@ -5,6 +5,7 @@ services:
     build:
       context: node
     container_name: app
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s node index.js
     networks:
       - node-network
     tty: true
@@ -20,6 +21,8 @@ services:
     tty: true
     ports:
       - "8080:80"
+    depends_on:
+      - app
 
   db:
     image: mysql:5.7
